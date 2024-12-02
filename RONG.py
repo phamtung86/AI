@@ -1,53 +1,52 @@
 class Node:
-    def __init__(self, name, par = None):
-        self.name = name
-        self.par = par
-    def display(self):
-        print(self.name)
-
+    def __init__(sefl,ten,cha = None):
+        sefl.ten = ten
+        sefl.cha = cha
+    def display(sefl):
+        print(sefl.ten)
+        
 from collections import defaultdict
-
 data = defaultdict(list)
-data['A'] =['D', 'N', 'K']
-data['D'] =['G']
-data['N'] =['S','P']
-data['K'] =['Z']
-data['S'] =['T', 'C']
-data['Z'] =['B', 'M']
+data = defaultdict(list)
+data['A'] = ['D', 'N', 'K']
+data['D'] = ['G']
+data['N'] = ['S', 'P']
+data['K'] = ['Z']
+data['S'] = ['T', 'C']
+data['Z'] = ['B', 'M']
 
-def equal(O, G):
-    return O.name == G.name
-def checkInArray(temp, Open):
-    for x in Open:
-        if equal(x, temp):
+def kiemTra(tam,O):
+    for v in O:
+        if v.ten == tam.ten:
             return True
         return False
-def path(O):
-    print(O.name)
-    if O.par != None:
-        path(O.par)
-    else:
-        return
-#BFS tìm kiếm chiều rộng
-def BFS(S = Node('A'), M = Node('S')):
-    Open = []
-    Closed = []
-    Open.append(S)
+
+def DuongDi(n):
+    if n is not None:
+        DuongDi(n.cha)
+        print(n.ten)
+
+def BFS(To,Tg):
+    MO = []
+    DONG = []
+    MO.append(To)
     while True:
-        if len(Open) == 0:
-            print('Tim kiem that bai')
+        if len(MO) == 0:
+            print("Tim kiem khong thanh cong")
             return
-        O = Open.pop(0)
-        Closed.append(O)
-        if equal(O, M) == True:
-            print('Tim kiem thanh cong')
-            path(O)
+        n = MO.pop(0)
+        if n.ten == Tg.ten:
+            print("Tim kiem thanh cong")
+            DuongDi(n)
             return
-        for x in data [O.name]:
-            tmp = Node(x)
-            tmp.par = O
-            ok1 = checkInArray(tmp, Open)
-            ok2 = checkInArray(tmp, Closed)
+        DONG.append(n)
+        for v in data[n.ten]:
+            tam = Node(v)
+            ok1 = kiemTra(tam,MO)
+            ok2 = kiemTra(tam,DONG)
             if not ok1 and not ok2:
-                Open.append(tmp)
-BFS(Node('A'), Node('S'))
+                MO.append(tam)
+                tam.cha = n
+BFS(Node('A'),Node('B'))
+                
+        
